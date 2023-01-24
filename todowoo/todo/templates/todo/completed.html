@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Completed Todos</title>
+</head>
+<body class="bg-gray-100">
+    <header>
+        <nav class="max-w-5xl mx-auto my-12 flex items-center justify-between">
+            {% if user.is_authenticated %}
+                <a class="text-2xl text-gray-900 font-bold"
+                href="{% url 'todo:home' %}" >
+                    Todowoo
+                    <span class="text-md text-gray-600">\{{ user.username }}
+                </a>
+            {% else %}
+                <a class="text-2xl text-gray-900 font-bold">
+                    Todowoo
+                </a>
+            {% endif %}
+
+
+            <ul class="flex space-x-3">
+                {% if user.is_authenticated %}
+                    <li>
+                        <form action="{% url 'todo:logout' %}" method="POST">
+                            {% csrf_token %}
+
+                            <button class="border-2 border-gray-600 px-3 py-1
+                            text-gray-600 rounded-lg hover:text-gray-100 hover:bg-gray-600"
+                            type="submit">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="border-2 border-gray-600 px-3 py-1
+                        text-gray-600 rounded-lg hover:text-gray-100 hover:bg-gray-600"
+                        href="{% url 'todo:login' %}">Login</a>
+                    </li>
+                    <li>
+                        <a class="border-2 border-gray-600 px-3 py-1
+                        text-gray-600 rounded-lg hover:text-gray-100 hover:bg-gray-600"
+                        href="{% url 'todo:signup' %}">Signup</a>
+                    </li>
+                {% endif %}
+                
+            </ul>
+                
+            </ul>
+
+        </nav>
+    </header>
+    <main>
+        {% for todo in todos %}
+            {% if todo.important %}
+                <div class="max-w-2xl mx-auto my-4 px-4 py-8 bg-blue-300 rounded-lg shadow-lg">
+                    <a class="text-lg text-gray-700 hover:text-gray-900"
+                    href="{% url 'todo:details' todo.id %}">
+                        <h2>{{ todo.title }}</h2>
+                    </a>
+                </div>
+            {% else %}
+                <div class="max-w-2xl mx-auto my-4 px-4 py-8 bg-white rounded-lg shadow-lg">
+                    <a class="text-lg text-gray-700 hover:text-gray-900"
+                    href="{% url 'todo:details' todo.id %}">
+                        <h2>{{ todo.title }}</h2>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </main>
+    
+</body>
+</html>

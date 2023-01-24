@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login</title>
+</head>
+<body class="bg-gray-100">
+    <header class="max-w-5xl mx-auto my-12">
+        <h1 class="text-4xl text-gray-900 text-center font-bold">Todowoo</h1>
+        <h2 class="text-lg text-gray-600 text-center">Login to Todowoo</h2>
+
+        {% if error %}
+            <div class="max-w-lg bg-red-400 text-gray-100 mx-auto my-4 px-3 py-6
+            rounded-lg shadow-lg">
+                {{ error }}
+            </div>
+        {% endif %}
+
+    </header>
+    <main>
+        {% if user.is_authenticated %}
+            <div class="max-w-lg bg-red-400 text-gray-100 mx-auto my-4 px-3 py-6
+            rounded-lg shadow-lg">
+                You are already logged in to Todowoo as {{ user.username }}!
+            </div>
+        {% else %}
+            <form class="max-w-sm mx-auto my-6 px-4 py-8 bg-white rounded-lg shadow-lg
+            flex flex-col space-y-3" method="POST">
+                {% csrf_token %}
+
+                <div class="flex flex-col space-y-1">
+                    <label class="text-lg text-gray-700" for="">Username</label>
+                    <input class="bg-gray-100 px-3 py-1 rounded-md text-md text-gray-700"
+                    id="username" name="username" type="text" >
+                </div>
+                <div class="flex flex-col space-y-1">
+                    <label class="text-lg text-gray-700" for="password">Password</label>
+                    <input class="bg-gray-100 px-3 py-1 rounded-md text-md text-gray-700"
+                    id="password" name="password" type="password" >
+                </div>
+                
+                <button class="bg-green-600 text-lg text-gray-100 rounded-md py-2
+                hover:bg-green-800" type="submit">Login</button>
+
+            </form>
+
+            <div class="max-w-sm mx-auto my-6 px-4 py-8 bg-white rounded-lg shadow-lg
+            text-lg text-gray-700">
+                Don't have an account?
+                <a class="text-blue-600 hover:text-blue-800"
+                href="{% url 'todo:signup' %}" >Signup</a>
+            </div>
+
+        {% endif %}
+    </main>
+</body>
+</html>
